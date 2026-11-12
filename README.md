@@ -4,6 +4,8 @@ Web divulgativa sobre **seguridad en el buceo recreativo**. Sirve para aprender,
 
 Contenido elaborado por **John Quispe Carrió, instructor de buceo SSI**.
 
+> 🔗 **Demo en línea:** [https://jquispe19.github.io/buceo-seguro/](https://jquispe19.github.io/buceo-seguro/)
+
 ![Página de inicio](docs/capturas/inicio.png)
 
 ## ✨ Secciones
