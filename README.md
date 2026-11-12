@@ -1,0 +1,106 @@
+# 🤿 Buceo Seguro
+
+Web divulgativa sobre **seguridad en el buceo recreativo**. Sirve para aprender, concienciar y planificar: consultar el estado del mar antes de una inmersión, calcular mezclas de Nitrox y la planificación del gas, y conocer los accidentes de buceo, cómo prevenirlos y cómo actuar ante ellos.
+
+Contenido elaborado por **John Quispe Carrió, instructor de buceo SSI**.
+
+![Página de inicio](docs/capturas/inicio.png)
+
+## ✨ Secciones
+
+### 🌊 Condiciones del mar
+- Búsqueda de localidades, puntos de buceo conocidos de España y selección de cualquier punto en un **mapa** (Leaflet).
+- Datos en tiempo real: **oleaje** (escala Douglas), mar de fondo, **viento y rachas** (escala Beaufort), **corriente superficial**, **temperatura del agua** con un traje orientativo, tiempo, visibilidad, índice UV, amanecer y ocaso.
+- **Valoración tipo semáforo** con los motivos detallados, según criterios publicados en la propia página.
+- **Gráfico de las próximas 48 horas** (Chart.js) y **previsión a 7 días** con una valoración diaria.
+
+![Condiciones del mar](docs/capturas/condiciones.png)
+
+### 🧮 Calculadora de buceo
+- **Nitrox**: MOD, MOD de contingencia, ppO₂ a la profundidad planificada, EAD, mejor mezcla y % SNC (límites de NOAA).
+- **Planificación de gas**: gas disponible, consumo a la profundidad planificada, autonomía hasta la reserva, presión al final de la inmersión y tabla de autonomía de 5 a 40 m.
+- **Mi consumo (SAC)**: calcula tu consumo en superficie a partir de una inmersión real y lo envía al planificador.
+- Avisos de seguridad automáticos: profundidad por encima de la MOD, ppO₂ superior a 1,4 o 1,6 bar, límites de la certificación, límite recreativo de 40 m y reserva insuficiente.
+
+![Calculadora de buceo](docs/capturas/calculadora.png)
+
+### 🚑 Accidentes y actuación
+- **Protocolo de actuación** en 8 pasos, señales de alarma y factores de riesgo de la enfermedad descompresiva.
+- **16 fichas** con qué es, por qué ocurre, síntomas, prevención y cómo actuar: enfermedad descompresiva, embolia gaseosa arterial, neumotórax, barotraumas, narcosis, toxicidad del oxígeno, hipercapnia, monóxido de carbono, pánico y ahogamiento, quedarse sin aire, hipotermia, edema pulmonar por inmersión, problemas cardíacos y lesiones por vida marina.
+- Filtro por tipo, enlaces directos a cada ficha (por ejemplo `accidentes.html#embolia`) y una versión para imprimir.
+
+![Accidentes y actuación](docs/capturas/accidentes.png)
+
+### ☎️ Siempre a mano
+Una barra de emergencia en todas las páginas con el **112**, **DAN Europe** (+39 06 4211 5685) y **Salvamento Marítimo** (900 202 202, VHF canal 16).
+
+## 🛠️ Tecnologías
+
+| Tecnología | Uso |
+| --- | --- |
+| HTML5 semántico, CSS3 (variables, grid, responsive), JavaScript ES6+ | Sin frameworks ni proceso de compilación |
+| [Open-Meteo](https://open-meteo.com) (Marine, Forecast y Geocoding APIs) | Datos del mar y del tiempo, gratuitos y sin clave |
+| [Leaflet](https://leafletjs.com) + [OpenStreetMap](https://www.openstreetmap.org) | Mapa interactivo |
+| [Chart.js](https://www.chartjs.org) | Gráfico de oleaje y viento |
+
+Accesibilidad: navegación por teclado, pestañas con roles ARIA, enlace para saltar al contenido, textos alternativos, contraste suficiente y respeto a `prefers-reduced-motion`.
+
+## 📐 Fórmulas de la calculadora
+
+```text
+P (bar)          = profundidad / 10 + 1
+MOD (m)          = (ppO₂ máx / FO₂ − 1) × 10
+ppO₂ (bar)       = FO₂ × P
+Mejor mezcla     = ppO₂ máx / P
+EAD (m)          = [(1 − FO₂) × (profundidad + 10) / 0,79] − 10
+Consumo (L/min)  = SAC × P
+Autonomía (min)  = (presión inicial − reserva) × volumen / consumo
+SAC (L/min)      = (bar consumidos × volumen) / tiempo / P media
+```
+
+Se usa un modelo simplificado: agua salada, 10 m = 1 bar y comportamiento de gas ideal. La MOD y la mejor mezcla se redondean hacia abajo para quedar siempre del lado seguro.
+
+## 🚀 Ejecutarlo en local
+
+No hace falta instalar nada. Sirve la carpeta con cualquier servidor estático:
+
+```bash
+git clone https://github.com/jquispe19/buceo-seguro.git
+cd buceo-seguro
+```
+
+- **VS Code**: extensión **Live Server**, botón *Go Live*.
+- **PHP**: `php -S localhost:8000`
+- **Python**: `python -m http.server 8000`
+
+## 📁 Estructura
+
+```text
+.
+├── index.html            # Inicio: principios de seguridad, física, volar tras bucear, contactos
+├── condiciones.html      # Condiciones del mar
+├── calculadora.html      # Nitrox, gas y SAC
+├── accidentes.html       # Protocolo y fichas de accidentes
+├── assets/
+│   ├── css/styles.css    # Estilos comunes
+│   ├── img/favicon.svg
+│   └── js/
+│       ├── common.js     # Cabecera, barra de emergencia, navegación y pie
+│       ├── condiciones.js
+│       ├── calculadora.js
+│       └── accidentes.js
+└── docs/capturas/        # Capturas para este README
+```
+
+## ⚠️ Aviso
+
+Esta web es **divulgativa y educativa**. No sustituye la formación de una agencia certificadora, el criterio de un profesional en el lugar de inmersión, tu ordenador de buceo ni la valoración de un médico. Las valoraciones del estado del mar son orientativas y se basan en modelos globales.
+
+Proyecto independiente, sin relación con SSI, DAN ni Salvamento Marítimo.
+
+## 📄 Créditos
+
+- Datos meteorológicos y marinos: [Open-Meteo](https://open-meteo.com) (CC BY 4.0).
+- Mapa: © [colaboradores de OpenStreetMap](https://www.openstreetmap.org/copyright).
+- Referencias del contenido: DAN Europe, Consejo Europeo de Resucitación (ERC) y límites de exposición al oxígeno de NOAA.
+- Autor: John Quispe Carrió

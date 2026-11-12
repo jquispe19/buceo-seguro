@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Condiciones del mar para bucear · Buceo Seguro</title>
+    <meta name="description" content="Oleaje, viento, corriente y temperatura del agua en tiempo real y previsión a 7 días, con una valoración orientativa para el buceo.">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body data-page="condiciones">
+
+<main id="main">
+    <section class="page-hero">
+        <div class="container">
+            <span class="eyebrow">Antes de entrar al agua</span>
+            <h1>Condiciones del mar</h1>
+            <p>Estado actual y previsión a 7 días del oleaje, el viento, la corriente y la temperatura del agua en cualquier
+                punto de la costa, con una valoración orientativa para el buceo recreativo.</p>
+        </div>
+    </section>
+
+    <section class="section-tight">
+        <div class="container">
+            <div class="notice notice-warn">
+                <svg viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+                <div>
+                    <strong>La valoración es orientativa</strong>
+                    <p>Los datos proceden de modelos meteorológicos y oceánicos globales con una resolución de varios
+                        kilómetros. No reflejan corrientes de marea locales, resacas, la visibilidad bajo el agua ni el
+                        estado de una cala concreta. La decisión final corresponde al centro de buceo, al guía y a ti.
+                        Consulta los <a href="https://www.aemet.es/es/eltiempo/prediccion/maritima" target="_blank" rel="noopener">avisos
+                        marítimos de AEMET</a>. <strong>Ante la duda, no bucees.</strong></p>
+                </div>
+            </div>
+
+            <div class="split">
+                <div class="card">
+                    <form id="searchForm" class="field" role="search">
+                        <label for="searchInput">Buscar una localidad de costa</label>
+                        <div style="display:flex; gap:8px">
+                            <input class="input" type="search" id="searchInput" placeholder="Ej.: L'Estartit, Cabo de Palos, Tabarca…" autocomplete="off" required>
+                            <button class="btn btn-primary" type="submit">Buscar</button>
+                        </div>
+                    </form>
+                    <div id="searchResults" class="spot-list mt-2" aria-live="polite"></div>
+
+                    <h3 class="mt-3" style="font-size:1rem; font-family: var(--font-body)">Puntos de buceo conocidos</h3>
+                    <div class="spot-list" id="spotList"></div>
+                    <p class="small muted mt-2 mb-0">También puedes hacer clic en el mapa para elegir un punto en el mar.</p>
+                </div>
+                <div id="map" role="application" aria-label="Mapa para elegir el punto de inmersión"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-tight">
+        <div class="container">
+            <div class="section-head mb-0">
+                <span class="eyebrow">Ubicación seleccionada</span>
+                <h2 id="placeName">—</h2>
+                <p class="muted mb-3" id="placeMeta"></p>
+            </div>
+
+            <div id="status" aria-live="polite"></div>
+
+            <div id="conditions" hidden>
+                <div id="verdict" class="verdict mb-3"></div>
+
+                <div class="grid grid-4" id="metrics"></div>
+
+                <div class="card mt-3">
+                    <h3>Próximas 48 horas</h3>
+                    <p class="small muted">Altura significativa de la ola y viento sostenido hora a hora.</p>
+                    <div class="chart-box"><canvas id="chart" aria-label="Gráfico de oleaje y viento de las próximas 48 horas" role="img"></canvas></div>
+                </div>
+
+                <h3 class="mt-3">Previsión para 7 días</h3>
+                <div class="table-wrap">
+                    <table class="data" id="forecast">
+                        <caption class="visually-hidden">Previsión diaria de oleaje y viento</caption>
+                        <thead>
+                        <tr>
+                            <th>Día</th><th>Cielo</th><th class="num">Ola máx.</th><th class="num">Periodo</th>
+                            <th class="num">Viento máx.</th><th class="num">Rachas</th><th class="num">Aire</th><th>Valoración</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-head">
+                <span class="eyebrow">Cómo se valora</span>
+                <h2>Criterios del semáforo</h2>
+                <p class="muted">Criterios orientativos para un buceador recreativo con experiencia media. La valoración
+                    global es la del parámetro más desfavorable. Un buceador sin experiencia, una entrada desde costa o
+                    una zona expuesta requieren condiciones mejores.</p>
+            </div>
+            <div class="table-wrap">
+                <table class="data">
+                    <thead><tr><th>Parámetro</th><th><span class="badge badge-ok">Favorable</span></th><th><span class="badge badge-warn">Precaución</span></th><th><span class="badge badge-danger">Desfavorable</span></th></tr></thead>
+                    <tbody>
+                    <tr><td>Altura de ola</td><td>Hasta 0,5 m (rizada)</td><td>0,5 – 1,25 m (marejadilla)</td><td>Más de 1,25 m (marejada o más)</td></tr>
+                    <tr><td>Viento sostenido</td><td>Hasta 19 km/h (fuerza 0–3)</td><td>20 – 38 km/h (fuerza 4–5)</td><td>39 km/h o más (fuerza 6+)</td></tr>
+                    <tr><td>Rachas de viento</td><td>Hasta 39 km/h</td><td>40 – 54 km/h</td><td>55 km/h o más</td></tr>
+                    <tr><td>Corriente superficial</td><td>Menos de 0,9 km/h (≈ 0,5 nudos)</td><td>0,9 – 1,8 km/h (≈ 1 nudo)</td><td>Más de 1,8 km/h</td></tr>
+                    <tr><td>Tiempo</td><td>Sin fenómenos adversos</td><td>Niebla, visibilidad &lt; 1 km o lluvia fuerte</td><td>Tormenta eléctrica</td></tr>
+                    <tr><td>Temperatura del agua</td><td>14 °C o más</td><td>Menos de 14 °C (riesgo de hipotermia)</td><td>—</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="assets/js/common.js"></script>
+<script src="assets/js/condiciones.js"></script>
+</body>
+</html>
