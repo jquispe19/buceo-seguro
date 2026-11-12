@@ -101,6 +101,14 @@ Web personal de un instructor SSI: no es una web oficial de SSI y no tiene relac
 ## 📄 Créditos
 
 - Datos meteorológicos y marinos: [Open-Meteo](https://open-meteo.com) (CC BY 4.0).
+- Fotografías de [Wikimedia Commons](https://commons.wikimedia.org), con licencias libres. Cada foto muestra su autor y su licencia en la propia página:
+  - Cabecera de inicio y de accidentes: Jouni Kuisma, DiveCodex (CC BY-SA 4.0), Illes Medes
+  - Cabecera de condiciones: Steffen Mokosch (CC BY-SA 4.0)
+  - Cabecera de la calculadora y curso Enriched Air Nitrox: Eli Duke (CC BY-SA 2.0)
+  - Navigation: U.S. Navy (dominio público) · Perfect Buoyancy: Summitandbeach (CC BY-SA 4.0) · Deep Diving: pratts (CC BY-SA 2.0)
+  - Stress & Rescue: Ken Hall (CC BY 2.0) · React Right: Minja Klarić (CC BY-SA 4.0)
+  - Paradas de seguridad: Oetzipopoetzi (CC BY-SA 3.0) y Peter Southwood (CC BY-SA 4.0)
+  - Cámara hiperbárica: Mediajen (CC0) · Kit de oxígeno: Wikipedia en inglés (CC BY-SA 3.0) · Medusa: Hans Hillewaert (CC BY-SA 4.0)
 - Mapa: © [colaboradores de OpenStreetMap](https://www.openstreetmap.org/copyright).
 - Referencias del contenido: DAN Europe, Consejo Europeo de Resucitación (ERC) y límites de exposición al oxígeno de NOAA.
 - Autor: John Quispe Carrió
