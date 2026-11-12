@@ -1,6 +1,6 @@
 # 🤿 Buceo Seguro
 
-Web divulgativa sobre **seguridad en el buceo recreativo**. Sirve para aprender, concienciar y planificar: consultar el estado del mar antes de una inmersión, calcular mezclas de Nitrox y la planificación del gas, y conocer los accidentes de buceo, cómo prevenirlos y cómo actuar ante ellos.
+Web divulgativa sobre **seguridad en el buceo recreativo**. Sirve para aprender, concienciar y planificar: consultar el estado del mar antes de una inmersión, calcular mezclas de Nitrox y conocer los accidentes de buceo, cómo prevenirlos y cómo actuar ante ellos.
 
 Contenido elaborado por **John Quispe Carrió, instructor de buceo SSI**.
 
@@ -16,13 +16,11 @@ Contenido elaborado por **John Quispe Carrió, instructor de buceo SSI**.
 
 ![Condiciones del mar](docs/capturas/condiciones.png)
 
-### 🧮 Calculadora de buceo
-- **Nitrox**: MOD, MOD de contingencia, ppO₂ a la profundidad planificada, EAD, mejor mezcla y % SNC (límites de NOAA).
-- **Planificación de gas**: gas disponible, consumo a la profundidad planificada, autonomía hasta la reserva, presión al final de la inmersión y tabla de autonomía de 5 a 40 m.
-- **Mi consumo (SAC)**: calcula tu consumo en superficie a partir de una inmersión real y lo envía al planificador.
-- Avisos de seguridad automáticos: profundidad por encima de la MOD, ppO₂ superior a 1,4 o 1,6 bar, límites de la certificación, límite recreativo de 40 m y reserva insuficiente.
+### 🧮 Calculadora Nitrox
+- MOD, MOD de contingencia, ppO₂ a la profundidad planificada, EAD, mejor mezcla y % SNC (límites de NOAA), calculados al momento mientras escribes.
+- Avisos de seguridad automáticos: profundidad por encima de la MOD, ppO₂ superior a 1,4 o 1,6 bar, límites de la certificación y límite recreativo de 40 m.
 
-![Calculadora de buceo](docs/capturas/calculadora.png)
+![Calculadora Nitrox](docs/capturas/calculadora.png)
 
 ### 🚑 Accidentes y actuación
 - **Protocolo de actuación** en 8 pasos, señales de alarma y factores de riesgo de la enfermedad descompresiva.
@@ -33,7 +31,7 @@ Contenido elaborado por **John Quispe Carrió, instructor de buceo SSI**.
 
 ### 🎓 Formación SSI
 - Una sección en el inicio con los cursos de SSI que más ayudan a bucear con seguridad: Enriched Air Nitrox, Navigation, Perfect Buoyancy, Deep Diving, Stress & Rescue y React Right, además del itinerario hasta Master Diver.
-- Recomendaciones discretas en contexto: Nitrox en la calculadora, Waves, Tides & Currents en las condiciones del mar, y React Right y Stress & Rescue en la guía de accidentes.
+- Recomendaciones discretas en contexto: Enriched Air Nitrox en la calculadora, Waves, Tides & Currents en las condiciones del mar, y React Right y Stress & Rescue en la guía de accidentes.
 
 ### ☎️ Siempre a mano
 Una barra de emergencia en todas las páginas con el **112**, **DAN Europe** (+39 06 4211 5685) y **Salvamento Marítimo** (900 202 202, VHF canal 16).
@@ -57,12 +55,10 @@ MOD (m)          = (ppO₂ máx / FO₂ − 1) × 10
 ppO₂ (bar)       = FO₂ × P
 Mejor mezcla     = ppO₂ máx / P
 EAD (m)          = [(1 − FO₂) × (profundidad + 10) / 0,79] − 10
-Consumo (L/min)  = SAC × P
-Autonomía (min)  = (presión inicial − reserva) × volumen / consumo
-SAC (L/min)      = (bar consumidos × volumen) / tiempo / P media
+% SNC            = tiempo / límite NOAA para esa ppO₂ × 100
 ```
 
-Se usa un modelo simplificado: agua salada, 10 m = 1 bar y comportamiento de gas ideal. La MOD y la mejor mezcla se redondean hacia abajo para quedar siempre del lado seguro.
+Se usa un modelo simplificado: agua salada y 10 m = 1 bar. La MOD y la mejor mezcla se redondean hacia abajo para quedar siempre del lado seguro.
 
 ## 🚀 Ejecutarlo en local
 
@@ -83,7 +79,7 @@ cd buceo-seguro
 .
 ├── index.html            # Inicio: principios de seguridad, física, volar tras bucear, contactos
 ├── condiciones.html      # Condiciones del mar
-├── calculadora.html      # Nitrox, gas y SAC
+├── calculadora.html      # Calculadora Nitrox
 ├── accidentes.html       # Protocolo y fichas de accidentes
 ├── assets/
 │   ├── css/styles.css    # Estilos comunes

@@ -1,6 +1,6 @@
 /*
- * Calculadora de buceo: Nitrox, planificación de gas y consumo en superficie (SAC).
- * Modelo simplificado: agua salada (10 m = 1 bar) y gas ideal.
+ * Calculadora Nitrox: MOD, ppO2, EAD, mejor mezcla y % SNC.
+ * Modelo simplificado: agua salada (10 m = 1 bar).
  */
 (() => {
     'use strict';
@@ -134,154 +134,10 @@
     }
 
     // -----------------------------------------------------------------------
-    // Planificación de gas
-    // -----------------------------------------------------------------------
-    function calcGas() {
-        const vol = num('gasVol');
-        const start = num('gasStart');
-        const reserve = num('gasReserve');
-        const sac = num('gasSac');
-        const depth = num('gasDepth');
-        const time = num('gasTime');
-
-        const values = { gasVol: vol > 0, gasStart: start > 0, gasReserve: reserve >= 0 && reserve < start, gasSac: sac > 0, gasDepth: depth >= 0 && depth <= 60, gasTime: time > 0 };
-        markInvalid(Object.keys(values), (id) => !values[id]);
-        if (Object.values(values).some((ok) => !ok)) {
-            $('gasResults').innerHTML = '';
-            $('gasTable').tBodies[0].innerHTML = '';
-            invalid('gasAlerts', 'Todos los valores deben ser positivos, la reserva menor que la presión inicial y la profundidad de 60 m como máximo.');
-            return;
-        }
-
-        const p = pressureAt(depth);
-        const usable = (start - reserve) * vol;
-        const perMinute = sac * p;
-        const autonomy = usable / perMinute;
-        const barPerMinute = perMinute / vol;
-        const endPressure = start - time * barPerMinute;
-
-        const endStatus = endPressure < reserve ? (endPressure <= 0 ? 'danger' : 'warn') : 'ok';
-
-        $('gasResults').innerHTML = [
-            result('Gas disponible', `${fmt(start * vol, 0)} L`, `Utilizable hasta la reserva: ${fmt(usable, 0)} L`),
-            result(`Consumo a ${fmt(depth, 0)} m`, `${fmt(perMinute, 1)} L/min`, `${fmt(barPerMinute, 1)} bar/min con esta botella`),
-            result('Autonomía hasta la reserva', `${fmt(Math.floor(autonomy), 0)} min`, 'Sin contar descenso ni ascenso'),
-            result(`Presión tras ${fmt(time, 0)} min`, endPressure <= 0 ? 'Sin gas' : `${fmt(Math.max(0, endPressure), 0)} bar`, `Reserva planificada: ${fmt(reserve, 0)} bar`, endStatus),
-        ].join('');
-
-        const alerts = [];
-        if (endPressure <= 0) {
-            alerts.push(alertBox('danger', 'El gas no es suficiente para el tiempo planificado',
-                `A ${fmt(depth, 0)} m solo tienes gas para unos ${fmt(Math.floor(autonomy), 0)} minutos antes de la reserva. Acorta la inmersión, reduce la profundidad o usa una botella mayor.`));
-        } else if (endPressure < reserve) {
-            alerts.push(alertBox('warn', 'Terminarías por debajo de la reserva',
-                `Con este plan llegarías a unos ${fmt(endPressure, 0)} bar, por debajo de los ${fmt(reserve, 0)} bar de reserva. El tiempo máximo recomendable es de unos ${fmt(Math.floor(autonomy), 0)} minutos.`));
-        } else {
-            alerts.push(alertBox('ok', 'El plan respeta la reserva',
-                'Aun así, comprueba el manómetro con frecuencia: el consumo real puede ser mayor por frío, esfuerzo, corriente o estrés.'));
-        }
-        $('gasAlerts').innerHTML = alerts.join('');
-
-        const rows = [];
-        for (let d = 5; d <= 40; d += 5) {
-            const pd = pressureAt(d);
-            const lpm = sac * pd;
-            const isCurrent = Math.round(depth) === d;
-            rows.push(`<tr${isCurrent ? ' style="background: var(--ocean-100); font-weight: 600"' : ''}>
-                <td>${d} m</td><td class="num">${fmt(pd, 1)} bar</td><td class="num">${fmt(lpm, 0)} L/min</td>
-                <td class="num">${fmt(lpm / vol, 1)}</td><td class="num">${fmt(Math.floor(usable / lpm), 0)} min</td></tr>`);
-        }
-        $('gasTable').tBodies[0].innerHTML = rows.join('');
-    }
-
-    // -----------------------------------------------------------------------
-    // Consumo en superficie (SAC)
-    // -----------------------------------------------------------------------
-    let lastSac = null;
-
-    function calcSac() {
-        const vol = num('sacVol');
-        const start = num('sacStart');
-        const end = num('sacEnd');
-        const time = num('sacTime');
-        const depth = num('sacDepth');
-
-        const values = { sacVol: vol > 0, sacStart: start > 0, sacEnd: end >= 0 && end < start, sacTime: time > 0, sacDepth: depth >= 0 && depth <= 60 };
-        markInvalid(Object.keys(values), (id) => !values[id]);
-        if (Object.values(values).some((ok) => !ok)) {
-            lastSac = null;
-            $('sacResults').innerHTML = '';
-            invalid('sacAlerts', 'La presión final debe ser menor que la inicial y todos los valores positivos.');
-            $('useSac').disabled = true;
-            return;
-        }
-
-        const used = (start - end) * vol;
-        const p = pressureAt(depth);
-        const sac = used / time / p;
-        lastSac = sac;
-        $('useSac').disabled = false;
-
-        const level = sac < 15 ? ['Bajo', 'ok'] : sac <= 25 ? ['Medio', ''] : ['Alto', 'warn'];
-        $('sacResults').innerHTML = [
-            result('Gas consumido', `${fmt(used, 0)} L`, `${fmt(start - end, 0)} bar × ${fmt(vol, 1)} L`),
-            result('Consumo a la profundidad media', `${fmt(used / time, 1)} L/min`, `A ${fmt(depth, 1)} m (${fmt(p, 2)} bar)`),
-            result('Tu SAC', `${fmt(sac, 1)} L/min`, `Nivel orientativo: ${level[0]}`, level[1]),
-        ].join('');
-
-        $('sacAlerts').innerHTML = sac > 25
-            ? alertBox('info', 'Consejos para reducir el consumo',
-                'Mejora el control de la flotabilidad y el lastrado, muévete despacio, respira de forma lenta y profunda, y cuida el aislamiento térmico. Nunca reduzcas el consumo conteniendo la respiración.')
-            : '';
-    }
-
-    $('useSac').addEventListener('click', () => {
-        if (lastSac === null) return;
-        $('gasSac').value = Math.ceil(lastSac); // redondeo hacia arriba: más conservador
-        $('gasVol').value = $('sacVol').value;
-        selectTab('tab-gas');
-        calcGas();
-        $('gasSac').focus();
-    });
-
-    // -----------------------------------------------------------------------
-    // Pestañas accesibles
-    // -----------------------------------------------------------------------
-    const tabs = [...document.querySelectorAll('[role="tab"]')];
-
-    function selectTab(id) {
-        tabs.forEach((tab) => {
-            const selected = tab.id === id;
-            tab.setAttribute('aria-selected', String(selected));
-            tab.tabIndex = selected ? 0 : -1;
-            $(tab.getAttribute('aria-controls')).hidden = !selected;
-        });
-        history.replaceState(null, '', `#${id.replace('tab-', '')}`);
-    }
-
-    tabs.forEach((tab, i) => {
-        tab.addEventListener('click', () => selectTab(tab.id));
-        tab.addEventListener('keydown', (e) => {
-            const dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
-            if (!dir) return;
-            const next = tabs[(i + dir + tabs.length) % tabs.length];
-            selectTab(next.id);
-            next.focus();
-        });
-    });
-
-    const fromHash = `tab-${location.hash.slice(1)}`;
-    if ($(fromHash)) selectTab(fromHash);
-
-    // -----------------------------------------------------------------------
     // Cálculo en vivo
     // -----------------------------------------------------------------------
     $('formNitrox').addEventListener('input', calcNitrox);
-    $('formGas').addEventListener('input', calcGas);
-    $('formSac').addEventListener('input', calcSac);
-    ['formNitrox', 'formGas', 'formSac'].forEach((id) => $(id).addEventListener('submit', (e) => e.preventDefault()));
+    $('formNitrox').addEventListener('submit', (e) => e.preventDefault());
 
     calcNitrox();
-    calcGas();
-    calcSac();
 })();

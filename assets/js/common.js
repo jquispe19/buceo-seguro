@@ -10,7 +10,7 @@
     const PAGES = [
         { id: 'inicio', href: 'index.html', label: 'Inicio' },
         { id: 'condiciones', href: 'condiciones.html', label: 'Condiciones del mar' },
-        { id: 'calculadora', href: 'calculadora.html', label: 'Calculadora' },
+        { id: 'calculadora', href: 'calculadora.html', label: 'Calculadora Nitrox' },
         { id: 'accidentes', href: 'accidentes.html', label: 'Accidentes y actuación' },
     ];
 
