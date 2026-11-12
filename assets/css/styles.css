@@ -493,6 +493,7 @@ table.data.wrap td { white-space: normal; }
 .photo-credit { display: block; margin-top: 4px; font-size: .75rem; color: var(--muted); }
 .photo-credit a { color: inherit; }
 @media (max-width: 640px) { .photo.wide img { aspect-ratio: 16 / 9; } }
+.photo.photo-anchor img { aspect-ratio: 16 / 9; object-position: center 30%; } /* que se vea el cabo del ancla */
 
 .media { position: relative; }
 .media-credit {
