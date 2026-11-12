@@ -31,6 +31,10 @@ Contenido elaborado por **John Quispe Carrió, instructor de buceo SSI**.
 
 ![Accidentes y actuación](docs/capturas/accidentes.png)
 
+### 🎓 Formación SSI
+- Una sección en el inicio con los cursos de SSI que más ayudan a bucear con seguridad: Enriched Air Nitrox, Navigation, Perfect Buoyancy, Deep Diving, Stress & Rescue y React Right, además del itinerario hasta Master Diver.
+- Recomendaciones discretas en contexto: Nitrox en la calculadora, Waves, Tides & Currents en las condiciones del mar, y React Right y Stress & Rescue en la guía de accidentes.
+
 ### ☎️ Siempre a mano
 Una barra de emergencia en todas las páginas con el **112**, **DAN Europe** (+39 06 4211 5685) y **Salvamento Marítimo** (900 202 202, VHF canal 16).
 
@@ -96,7 +100,7 @@ cd buceo-seguro
 
 Esta web es **divulgativa y educativa**. No sustituye la formación de una agencia certificadora, el criterio de un profesional en el lugar de inmersión, tu ordenador de buceo ni la valoración de un médico. Las valoraciones del estado del mar son orientativas y se basan en modelos globales.
 
-Proyecto independiente, sin relación con SSI, DAN ni Salvamento Marítimo.
+Web personal de un instructor SSI: no es una web oficial de SSI y no tiene relación con DAN ni con Salvamento Marítimo.
 
 ## 📄 Créditos
 

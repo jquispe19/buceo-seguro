@@ -77,7 +77,8 @@
                     La información de esta web es <strong>divulgativa y educativa</strong>: no sustituye la formación de una
                     agencia certificadora, el criterio de un profesional en el lugar de inmersión, tu ordenador de buceo ni
                     la valoración de un médico. Bucea siempre dentro de los límites de tu formación y experiencia.</p>
-                    <p class="mb-0">Proyecto independiente, sin relación con SSI, DAN ni Salvamento Marítimo.
+                    <p class="mb-0">Web personal de un instructor SSI: no es una web oficial de SSI y no tiene relación con DAN
+                    ni con Salvamento Marítimo. Información sobre cursos en <a href="https://www.divessi.com/es/advanced-training/scuba-diving" target="_blank" rel="noopener">divessi.com</a>.
                     Datos meteorológicos y marinos: <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo</a>
                     (CC BY 4.0). Mapa: © colaboradores de <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>.
                     © ${new Date().getFullYear()} ${AUTHOR}.</p>

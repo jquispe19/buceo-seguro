@@ -295,6 +295,7 @@ table.data th, table.data td { padding: 10px 14px; text-align: left; border-bott
 table.data th { background: var(--sand-50); font-weight: 600; color: var(--navy-800); font-size: .82rem; text-transform: uppercase; letter-spacing: .04em; }
 table.data tr:last-child td { border-bottom: none; }
 table.data td.num, table.data th.num { text-align: right; font-variant-numeric: tabular-nums; }
+table.data.wrap td { white-space: normal; }
 
 /* ---------- Formularios ---------- */
 .form-grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(170px, 100%), 1fr)); }
@@ -473,6 +474,50 @@ table.data td.num, table.data th.num { text-align: right; font-variant-numeric: 
 .contact-card { display: flex; flex-direction: column; gap: 4px; }
 .contact-card .number { font-size: 1.5rem; font-weight: 700; color: var(--danger); font-variant-numeric: tabular-nums; text-decoration: none; }
 .contact-card .number:hover { text-decoration: underline; color: var(--danger); }
+
+/* ---------- Formación SSI ---------- */
+.grid-courses { grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); }
+.course-card { display: flex; flex-direction: column; }
+.course-card .tag { align-self: flex-start; }
+.course-card h3 { margin: 10px 0 .3em; }
+.course-card .course-for { font-size: .85rem; color: var(--ocean-600); font-weight: 600; margin-bottom: .5em; }
+.course-card p { color: var(--muted); font-size: .95rem; }
+.course-path {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 10px;
+    padding: 16px 20px;
+    border-radius: var(--radius);
+    background: var(--ocean-100);
+    color: var(--navy-800);
+    font-size: .92rem;
+}
+.course-path .step-pill { background: var(--surface); border: 1px solid #bfe0ea; border-radius: 999px; padding: 4px 12px; font-weight: 600; }
+.course-path .sep { color: var(--ocean-500); font-weight: 700; }
+
+.course-tip {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 14px 18px;
+    border-radius: var(--radius);
+    border: 1px dashed #9fcfdd;
+    background: linear-gradient(90deg, var(--ocean-100), #f4fafc);
+    font-size: .92rem;
+    margin-top: 20px;
+}
+.course-tip .tip-icon {
+    flex: none;
+    width: 36px; height: 36px;
+    display: grid; place-items: center;
+    border-radius: 50%;
+    background: var(--navy-700);
+    color: #fff;
+}
+.course-tip .tip-icon svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.course-tip p { margin: 0; }
+.course-tip .tip-label { display: block; font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ocean-600); margin-bottom: 2px; }
 
 /* ---------- Autor ---------- */
 .author { display: flex; gap: 20px; align-items: center; }
